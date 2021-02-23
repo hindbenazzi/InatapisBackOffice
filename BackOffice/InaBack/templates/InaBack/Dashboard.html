@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-storage.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+    <style>
+        body {
+  font-family: sans-serif;
+  background-color: #eeeeee;
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #b21f24;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #d4344b;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #b21f24;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #d4344b;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.file-upload-btn:hover {
+  background: #d4344b;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #d4344b;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+.btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #a70018;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #a70018;
+  border: 4px dashed #ffffff;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+.cst {
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  border-radius: 15px;
+  padding: 16px;
+  background-color: #ffffff;
+  text-shadow: 1px 1px 0 white;
+}
+
+label {
+  display: block;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.inp {
+    margin-right: 8px;
+    box-shadow: inset 2px 2px 5px darkgray, inset -5px -5px 10px white;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #7ae5cf;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+button {
+  color:#61677C;
+  font-weight: bold;
+  box-shadow: -5px -5px 20px white,  5px 5px 20px darkgray;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;}
+
+button:hover {
+    box-shadow: -2px -2px 5px white, 2px 2px 5px darkgray;
+}
+
+button:active {
+    box-shadow: inset 1px 1px 2px white, inset -1px -1px 2px white;
+  }
+
+
+
+button.icon {
+      margin-right: 0;
+    }
+
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+    </style>
+</head>
+<body>
+</div><script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<div class="file-upload">
+ <form action="/insertCollection/" method="post">
+     {% csrf_token %}
+  <div class="image-upload-wrap">
+    <input class="file-upload-input" type='file' id="files" onchange="readURL(this);" accept="image/*" name="file-image" />
+
+    <div class="drag-text">
+      <h3>Faites glisser et déposez un fichier ou sélectionnez un pour Ajouter une image</h3>
+    </div>
+  </div><br>
+    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Ajouter Image</button><br>
+
+  <div class="file-upload-content">
+    <img class="file-upload-image" src="#" alt="your image" />
+    <div class="image-title-wrap">
+      <button type="button" onclick="removeUpload()" class="remove-image">Enlever <span class="image-title" >Uploaded Image</span></button>
+    </div>
+  </div><br>
+      <button type="button"  class="file-upload-btn" onclick="StoreImage()">Ajouter l'image au storage</button><br>
+     <input type="hidden" name="URL" id="url"/>
+     <br><label>
+    <input class="cst inp" type="text" placeholder="Titre" name="Title"/>
+     </label>
+     <label>
+         <textarea  class="cst inp" placeholder="Description" cols="30" rows="6" name="Description"></textarea>
+     </label>
+     <input  class=" btn" type="submit" value="Inserer Motif"/>
+  </form>
+</div>
+<script>
+var firebaseConfig = {
+  apiKey: 'AIzaSyA63eHaTcbGcDSLDmmJAwjkjo0CF1o4m5w',
+  authDomain: 'djangotest-c0d34.firebaseapp.com',
+  databaseURL: 'https://djangotest-c0d34-default-rtdb.firebaseio.com',
+  storageBucket: 'djangotest-c0d34.appspot.com'
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+    $('.image-upload-wrap').addClass('image-dropping');
+  });
+  $('.image-upload-wrap').bind('dragleave', function () {
+    $('.image-upload-wrap').removeClass('image-dropping');
+});
+function StoreImage(){
+// Get a reference to the storage service, which is used to create references in your storage bucket
+var storage = firebase.storage();
+var file=document.getElementById("files").files[0];
+var storageRef = storage.ref();
+var thisRef = storageRef.child(file.name).put(file);
+thisRef.on('state_changed',function (snapshot) {
+    console.log("data uploaded succesufully");
+
+},function (error){
+
+}, function() {
+            //Upload file completed successfull, now we can get the download url
+    thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                console.log("url available: "+downloadURL)
+        document.getElementById("url").value=downloadURL;
+            })
+    console.log("Got URL: ");
+    alert("File uploaded successfully");
+});
+
+}
+</script>
+</body>
+</html>
