@@ -223,6 +223,15 @@ button.icon {
        display: inline-block;
        padding: 15px 30px;
    }
+   h1
+   {
+       color: #c13b2a;
+       font-family: 'Trocchi', serif;
+       font-size: 60px;
+       font-weight: normal;
+       line-height: 48px;
+       margin: 10px;
+   }
    a{
        text-align: center;
        color: white;
@@ -243,103 +252,9 @@ button.icon {
     </nav>
 </header>
 </div><script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<div class="file-upload">
- <form action="/insertCollection/" method="post">
-     {% csrf_token %}
-  <div class="image-upload-wrap">
-    <input class="file-upload-input" type='file' id="files" onchange="readURL(this);" accept="image/*" name="file-image" />
-
-    <div class="drag-text">
-      <h3>Faites glisser et déposez un fichier ou sélectionnez un pour Ajouter une image</h3>
-    </div>
-  </div><br>
-    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Ajouter Image</button><br>
-
-  <div class="file-upload-content">
-    <img class="file-upload-image" src="#" alt="your image" />
-    <div class="image-title-wrap">
-      <button type="button" onclick="removeUpload()" class="remove-image">Enlever <span class="image-title" >Uploaded Image</span></button>
-    </div>
-  </div><br>
-      <button type="button"  class="file-upload-btn" onclick="StoreImage()">Ajouter l'image au storage</button><br>
-     <input type="hidden" name="URL" id="url"/>
-     <br><label>
-    <input class="cst inp" type="text" placeholder="Titre" name="Title"/>
-     </label>
-     <label>
-         <textarea  class="cst inp" placeholder="Description" cols="30" rows="6" name="Description"></textarea>
-     </label>
-     <input  class=" btn" type="submit" value="Inserer Motif"/>
-  </form>
+<div class="file-upload" style="margin-top: 120px">
+    <h1>Interface d'administration de l'application Mobile Innatapis</h1>
 </div>
-<script>
-  var firebaseConfig = {
-    apiKey: "AIzaSyDTcgwr90Kyn4nm4MVVyepGkuAJdSAVUjA",
-    authDomain: "inatapis-acf70.firebaseapp.com",
-    databaseURL: "https://inatapis-acf70-default-rtdb.firebaseio.com",
-    projectId: "inatapis-acf70",
-    storageBucket: "inatapis-acf70.appspot.com",
-    messagingSenderId: "352530260417",
-    appId: "1:352530260417:web:ad95962e82e608ce2c0f40",
-    measurementId: "G-90HT2DV4TV"
-  };
-firebase.initializeApp(firebaseConfig);
 
-
-function readURL(input) {
-  if (input.files && input.files[0]) {
-
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-      $('.image-upload-wrap').hide();
-
-      $('.file-upload-image').attr('src', e.target.result);
-      $('.file-upload-content').show();
-
-      $('.image-title').html(input.files[0].name);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-
-  } else {
-    removeUpload();
-  }
-}
-
-function removeUpload() {
-  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-  $('.file-upload-content').hide();
-  $('.image-upload-wrap').show();
-}
-$('.image-upload-wrap').bind('dragover', function () {
-    $('.image-upload-wrap').addClass('image-dropping');
-  });
-  $('.image-upload-wrap').bind('dragleave', function () {
-    $('.image-upload-wrap').removeClass('image-dropping');
-});
-function StoreImage(){
-// Get a reference to the storage service, which is used to create references in your storage bucket
-var storage = firebase.storage();
-var file=document.getElementById("files").files[0];
-var storageRef = storage.ref();
-var thisRef = storageRef.child(file.name).put(file);
-thisRef.on('state_changed',function (snapshot) {
-    console.log("data uploaded succesufully");
-
-},function (error){
-
-}, function() {
-            //Upload file completed successfull, now we can get the download url
-    thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                console.log("url available: "+downloadURL)
-        document.getElementById("url").value=downloadURL;
-            })
-    console.log("Got URL: ");
-    alert("File uploaded successfully");
-});
-
-}
-</script>
 </body>
 </html>

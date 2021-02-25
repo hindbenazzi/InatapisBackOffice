@@ -2,11 +2,154 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fail</title>
+    <title>Nos Motifs</title>
+    <!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="../../static/images/icons/favicon.ico"/>
+    <script src="https://kit.fontawesome.com/caef5d182a.js" crossorigin="anonymous"></script>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../../static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/main.css">
+    <style>
+    body {
+        padding: 0px;
+        margin: 0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    table {
+        position: absolute;
+        left: 20%;
+        top: 20%;
+
+        border-collapse: collapse;
+        width: 800px;
+        height: 200px;
+        border: 1px solid #bdc3c7;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    tr {
+        transition: all .2s ease-in;
+        cursor: pointer;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+   header{
+    width: 100%;
+    height: 70px;
+    background-color: #6e0413;
+    color: #fff;
+   }
+   ul{
+
+       margin: auto;
+       float: left;
+       margin-top: 8px;
+       margin-left: 20%;
+
+   }
+   li{
+
+       display: inline-block;
+       padding: 15px 30px;
+   }
+   a{
+       text-align: center;
+       color: white;
+       text-decoration: none;
+       font-size: 1.2vw;
+   }
+    #header {
+        background-color: #6e0413;
+        color: #fff;
+    }
+
+    h1 {
+        font-weight: 600;
+        text-align: center;
+        background-color: #6e0413;
+        color: #fff;
+        padding: 10px 0px;
+    }
+    button{
+        cursor: pointer;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+        transform: scale(1.02);
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @media only screen and (max-width: 768px) {
+        table {
+            width: 90%;
+        }
+    }
+</style>
 </head>
 <body>
-<h1>Data passed {{Image}}</h1>
-<h1>{{Title}}</h1>
-<h1>{{Description}}</h1>
+<header>
+    <nav>
+        <ul>
+            <li><a href="../home" ><i class="fas fa-home"></i> Acceuille</a></li>
+            <li><a href="../insertCollection/"><i class="fas fa-database"></i> Inserer des Motifs</a></li>
+            <li><a href="../showCollection"><i class="fas fa-eye"></i> Consulter les Motifs</a></li>
+            <li><a href="../signout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        </ul>
+    </nav>
+</header>
+<table>
+    <tr id="header">
+        <th>Image </th>
+        <th>Titre </th>
+        <th>Description </th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
+    </tr>
+
+{% for item in Items %}
+  <tr>
+  <td><img src="{{item.imageUrl}}" height="150px" width="150px"></td>
+  <td>{{item.title}}</td>
+  <td>{{item.description}}</td>
+
+   <td>
+       <form action="/editItem/">
+       <input type="hidden" name="ItemId" value="{{item.id}}">
+       <a type="button"  class="login100-form-btn" value="Modifier"><button type="submit"><i class="far fa-edit"></i></button></a>
+       </form>
+   </td>
+
+   <td>
+       <form action="/deleteItem/">
+       <input type="hidden" name="ItemId" value="{{item.id}}">
+       <a type="button"    class="login100-form-btn" value="Supprimer"><button type="submit"><i class="fas fa-trash-alt"></i></button></a>
+       </form>
+   </td>
+  </tr>
+{% endfor %}
+
+</table>
 </body>
 </html>

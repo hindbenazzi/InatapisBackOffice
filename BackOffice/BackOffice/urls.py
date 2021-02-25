@@ -21,4 +21,10 @@ urlpatterns = [
     path('', include('InaBack.urls')),
     path('postsign/', include('InaBack.urls')),
     path('insertCollection/', include('InaBack.urls')),
+    path('showCollection/', include('InaBack.urls')),
+    path('home/', include('InaBack.urls')),
+    path('signout/', include('InaBack.urls')),
+    path('editItem/', include('InaBack.urls')),
+    path('deleteItem/', include('InaBack.urls')),
+    path('updateCollection/', include('InaBack.urls')),
 ]
